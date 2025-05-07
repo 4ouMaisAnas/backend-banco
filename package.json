@@ -1,0 +1,22 @@
+{
+  "name": "render-deploy",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4ouMaisAnas/backend-banco.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
