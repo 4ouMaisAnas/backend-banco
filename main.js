@@ -12,6 +12,24 @@ app.get('/', (req, res) => {
   res.send('Olá mundo!!');
 });
 
+app.post('/login', (req, res) => {
+  let usuario = req.body.user
+  let senha = req.body.pass
+
+  const predefinedUser = "admin";
+    const predefinedPass = "1234";
+
+    if (user === predefinedUser && pass === predefinedPass) {
+        res.json({
+          isValid:true
+        })
+    } else {
+      res.json({
+        isValid:false
+      })
+    }
+});
+
 app.get('/sugestoes', (req, res) => {
   res.set({
     "Content-Type": "application/json",
