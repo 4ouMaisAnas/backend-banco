@@ -15,20 +15,20 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  let usuario = req.body.user
-  let senha = req.body.pass
+  let usuario = req.body.usuario
+  let senha = req.body.senha
 
   const predefinedUser = "admin";
-    const predefinedPass = "1234";
+  const predefinedPass = "1234";
 
-    if (user === predefinedUser && pass === predefinedPass) {
-        res.json({
-          isValid:true
-        })
-    } else {
-      res.json({
-        isValid:false
-      })
+  if (usuario === predefinedUser && senha === predefinedPass) {
+    res.json({
+      isValid: true
+    })
+  } else {
+    res.json({
+      isValid: false
+    })
     }
 });
 
