@@ -32,18 +32,6 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.get('/sugestoes', (req, res) => {
-  res.set({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  });
-  let sugestoes = [];
-  for (let index = 0; index < 10; index++) {
-    sugestoes.push("Item " + index);
-  }
-  res.send(sugestoes);
-});
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
