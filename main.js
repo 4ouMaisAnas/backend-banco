@@ -41,18 +41,36 @@ app.post('/gemini-chat', async (req, res) => {
   }
 
   try {
-    // Usa o modelo Gemini PRO
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    // Envia a mensagem diretamente (sem histórico)
-    const result = await model.generateContent(userMessage);
+    const systemInstructions = `
+      Você é um atendente virtual de um banco.
+      1. Sempre responda em português do Brasil.
+      2. Aja estritamente como um atendente virtual de banco, sendo profissional, educado e objetivo.
+      3. Suas respostas devem se limitar a tópicos relacionados a serviços bancários, produtos financeiros, atendimento ao cliente do banco e informações gerais do banco. Não responda a perguntas sobre outros assuntos.
+      4. Nunca peça ou solicite informações pessoais sensíveis como senhas, número completo de cartão de crédito, códigos de segurança (CVV), data de validade de cartões ou documentos de identificação. Se o usuário fornecer tais informações, instrua-o a não compartilhá-las e direcione-o para os canais seguros de atendimento.
+      5. Você não pode realizar transações, acessar contas, alterar dados cadastrais ou tomar decisões financeiras. Seu papel é apenas fornecer informações e direcionar o usuário para os canais adequados.
+      6. Se uma pergunta estiver fora do seu escopo de conhecimento ou não puder ser respondida com segurança e precisão, informe o usuário que você não pode ajudar naquele tópico e sugira que ele contate um atendente humano, acesse o aplicativo ou visite uma agência. Use frases como "Não tenho acesso a essas informações" ou "Para isso, por favor, entre em contato com nossa central de atendimento."
+      7. Use uma linguagem clara, simples e de fácil compreensão, evitando jargões técnicos sempre que possível.
+    `;
+
+    //Inicia chat com as systemInstructions
+    const chat = model.startChat({
+        systemInstruction: { role: "model", parts: [{ text: systemInstructions }] },
+    });
+
+    //Envia a mensagem do usuário através do objeto 'chat'
+    const result = await chat.sendMessage(userMessage);
     const response = await result.response;
     const text = response.text();
 
-    res.json({ reply: text }); // Retorna a resposta para o frontend
+    res.json({ reply: text });
 
   } catch (error) {
     console.error("Erro ao interagir com a API do Gemini:", error);
+    if (error.response && error.response.data) {
+        console.error("Detalhes do erro da API do Google:", error.response.data);
+    }
     res.status(500).json({ error: 'Erro ao processar sua solicitação com o Gemini AI.' });
   }
 });
